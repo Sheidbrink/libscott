@@ -1,13 +1,15 @@
 CC = gcc
-CFLAGS = -Wall -fPIC -c
-STATICFLAGS = -Wall -c
+CFLAGS = -Wall -fPIC -c -O3
+STATICFLAGS = -Wall -c -O3
 SRC_DIR = ./src/
 INCLUDE_DIR = ./inc/
 OBJ_DIR = ./bin/
 HEADERS = utils.h \
-			doublell.h
+			doublell.h \
+			socket.h
 SRCS = buffer.c \
-		doublell.c
+		doublell.c \
+		socket.c
 OBJS = $(SRCS:%.c=%.o)
 OBJS_LOC = $(OBJS:%=$(OBJ_DIR)%)
 LIB_DYNAMIC = libscott.so
