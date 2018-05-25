@@ -23,9 +23,11 @@ all: $(LIB_DYNAMIC)
 $(LIB_DYNAMIC): $(OBJS_LOC)
 	$(CC) -shared $(OBJS_LOC) -o $(LIB_DYNAMIC)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	mkdir -p $(OBJ_DIR)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(OBJ_DIR)
 	$(CC) $(CFLAGS) $< -o $@ -I $(INCLUDE_DIR)
+
+$(OBJ_DIR):
+	mkdir $(OBJ_DIR)
 
 .PHONY: static
 static: CFLAGS = $(STATICFLAGS)
