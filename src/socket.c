@@ -30,6 +30,14 @@ int cidr_to_in_addr(char* cidr, struct in_addr** all_ips, uint32_t* mask) {
     return len;
 }
 
+int tcp_connect(char* host, char* port){
+    return sock_connect(host, port, SOCK_STREAM, IPPROTO_TCP);
+}
+
+int udp_connect(char* host, char* port){
+    return sock_connect(host, port, SOCK_DGRAM, IPPROTO_UDP);
+}
+
 int sock_connect(char* host, char* port, int socktype, int proto) {
     struct addrinfo hints;
     struct addrinfo *result, *rp;
