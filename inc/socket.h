@@ -13,6 +13,7 @@ int sock_create(char* host,
                 int proto,
                 int (*handle_func)(int, const struct sockaddr*, socklen_t));
 int cidr_to_in_addr(char* cidr, struct in_addr** all_ips, uint32_t* mask);
+unsigned short port_range(char* portrange, unsigned short** ports);
 int setblocking(int sock, int blocking);
 
 

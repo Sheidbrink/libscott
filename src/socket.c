@@ -34,6 +34,43 @@ int cidr_to_in_addr(char* cidr, struct in_addr** all_ips, uint32_t* mask) {
     return len;
 }
 
+void add_port(unsigned short port, unsigned short** ports, unsigned short* size) {
+    (*size)++;
+    (*ports) = realloc(*ports, (*size) * sizeof(unsigned short));
+    (*ports)[(*size) - 1] = port;
+}
+unsigned short port_range(char* portrange, unsigned short** ports) {
+    char* token;
+    char* temp;
+    char* savetoken, *saverange;
+    unsigned short first, last, num_ports = 0;
+    char* copy = malloc((strlen(portrange) + 1) * sizeof(char));
+
+    strcpy(copy, portrange);
+
+    token = strtok_r(copy, ",", &savetoken);
+    while (token != NULL) {
+        if (strchr(token, '-') != NULL) {
+            temp = malloc(strlen(token) + 1);
+            strcpy(temp, token);
+            first = atoi(strtok_r(temp, "-", &saverange));
+            last = atoi(strtok_r(NULL, "-", &saverange));
+            if (first <= last) {
+                for (int i = first; i <= last; i++) {
+                    add_port(i, ports, &num_ports);
+                }
+            }
+            free(temp);
+        }
+        else {
+            add_port(atoi(token), ports, &num_ports);
+        }
+        token = strtok_r(NULL, ",", &savetoken);
+    }
+    free(copy);
+    return num_ports;
+}
+
 int fast_connect(int sfd, const struct sockaddr* addr, socklen_t addrlen) {
     fd_set fdset;
 
